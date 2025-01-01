@@ -1,25 +1,56 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react"
+import Header from "./components/Header"
+import TodoList from "./components/TodoList"
+import TodoData from "./data/TodoData"
 
 function App() {
+  const [list, setList] = useState(TodoData);
+
+  const allItemsCompleted = list.every((todo) => todo.completed);
+
+  function checkAllItems() {
+    setList(() => {
+      return list.map((todo) => {
+        return {
+          ...todo,
+          completed: allItemsCompleted ? false : true
+        }
+      })
+    })
+  }
+
+  function checkItem(item) {
+    setList((prevList) => {
+      return prevList.map((todo) => {
+        if (todo.id === item.id) {
+          return {
+            ...todo,
+            completed: !todo.completed
+          }
+        }
+        return todo
+      })
+    })
+  }
+
+  function addItemToList(item) {
+    setList([...list, item])
+  }
+
+  function handleRemoveItem(id) {
+    setList((prevList) => {
+      return prevList.filter((todo) => todo.id !== id)
+    })
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <>
+      <Header title="Welcome back, Blade 👋🏼" />
+      <div className="container">
+        <TodoList list={list} handleCheck={checkItem} handleCheckAll={checkAllItems} allItemsCompleted={allItemsCompleted} handleAddTodo={addItemToList} handleRemoveItem={handleRemoveItem} />
+      </div>
+    </>
+  )
 }
 
-export default App;
+export default App
