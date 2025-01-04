@@ -6,7 +6,7 @@ import About from "./pages/About";
 function App() {
   return (
     <Router>
-      <Header title="Welcome back, Blade 👋🏼" />
+      <Header title="㉃ Todo App" />
       <Routes>
         <Route index element={<Home />} />
         <Route path="/about" element={<About />} />
