@@ -1,17 +1,12 @@
-import TodoForm from "./TodoForm";
+import { useContext } from "react";
 import TodoItem from "./TodoItem";
+import TodoContext from "../context/TodoContext";
 
-function TodoList({
-  list,
-  handleCheck,
-  handleCheckAll,
-  handleAddTodo,
-  handleRemoveItem,
-  allItemsCompleted
-}) {
+export default function TodoList() {
+  const { list, checkAllItems, allItemsCompleted } = useContext(TodoContext);
+
   return (
     <div className="todo-list">
-      <TodoForm addTodo={handleAddTodo} />
       <div className="todo-list--header">
         <h2>Todo List</h2>
         <div className="todo-list--header">
@@ -19,7 +14,7 @@ function TodoList({
             type="checkbox"
             id="checkbox"
             checked={allItemsCompleted}
-            onChange={() => handleCheckAll(list)}
+            onChange={() => checkAllItems(list)}
           />
           <label htmlFor="checkbox">Check All</label>
         </div>
@@ -27,22 +22,12 @@ function TodoList({
       <div>
         {list?.length ? (
           list?.map((item) => {
-            return (
-              <TodoItem
-                item={item}
-                key={item.id}
-                handleCheck={handleCheck}
-                handleRemoveItem={handleRemoveItem}
-                className="todo-item"
-              />
-            );
+            return <TodoItem item={item} key={item.id} className="todo-item" />;
           })
         ) : (
-          <h2>Ooops!, no data available yet. 😔</h2>
+          <h2>Oops!, no data available yet. 😔</h2>
         )}
       </div>
     </div>
   );
 }
-
-export default TodoList;
