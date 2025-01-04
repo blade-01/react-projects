@@ -1,4 +1,4 @@
-# Todo App
+# ㉃ Todo App
 
 This project is a simple Todo App built with React. It allows users to add, edit, and remove tasks, as well as mark them as completed. The app uses context and reducers for state management.
 
