@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 
-function Header({ title }) {
+export default function Header({ title }) {
   return (
     <header>
       <div className=" header">
@@ -12,18 +12,11 @@ function Header({ title }) {
   );
 }
 
-// Deprecated
-// Header.defaultProps = {
-//   title: "Welcome back"
-// };
-
 Header.default = {
-  title: "Welcome back"
+  title: "Howdy 👋🏼, welcome back!"
 };
 
 // Not necessary
 Header.propTypes = {
   title: PropTypes.string
 };
-
-export default Header;
