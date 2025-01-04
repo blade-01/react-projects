@@ -1,56 +1,18 @@
-import { useState } from "react"
-import Header from "./components/Header"
-import TodoList from "./components/TodoList"
-import TodoData from "./data/TodoData"
+import { BrowserRouter as Router, Routes, Route } from "react-router";
+import Header from "./components/Header";
+import Home from "./pages/Home";
+import About from "./pages/About";
 
 function App() {
-  const [list, setList] = useState(TodoData);
-
-  const allItemsCompleted = list.every((todo) => todo.completed);
-
-  function checkAllItems() {
-    setList(() => {
-      return list.map((todo) => {
-        return {
-          ...todo,
-          completed: allItemsCompleted ? false : true
-        }
-      })
-    })
-  }
-
-  function checkItem(item) {
-    setList((prevList) => {
-      return prevList.map((todo) => {
-        if (todo.id === item.id) {
-          return {
-            ...todo,
-            completed: !todo.completed
-          }
-        }
-        return todo
-      })
-    })
-  }
-
-  function addItemToList(item) {
-    setList([...list, item])
-  }
-
-  function handleRemoveItem(id) {
-    setList((prevList) => {
-      return prevList.filter((todo) => todo.id !== id)
-    })
-  }
-
   return (
-    <>
+    <Router>
       <Header title="Welcome back, Blade 👋🏼" />
-      <div className="container">
-        <TodoList list={list} handleCheck={checkItem} handleCheckAll={checkAllItems} allItemsCompleted={allItemsCompleted} handleAddTodo={addItemToList} handleRemoveItem={handleRemoveItem} />
-      </div>
-    </>
-  )
+      <Routes>
+        <Route index element={<Home />} />
+        <Route path="/about" element={<About />} />
+      </Routes>
+    </Router>
+  );
 }
 
-export default App
+export default App;
