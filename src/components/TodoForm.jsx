@@ -1,39 +1,69 @@
-import { useState } from "react";
+import { useState, useContext, useEffect } from "react";
 import UiBtn from "./Ui/Btn";
-function TodoForm({ addTodo }) {
-  const [text, setText] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
-  const [btnDisabled, setBtnDisabled] = useState(true);
+import TodoContext from "../context/TodoContext";
+export default function TodoForm() {
+  const { addTodo, isEdit, updateTodo } = useContext(TodoContext);
+
+  useEffect(() => {
+    if (isEdit.edit) {
+      setState((prevState) => ({
+        ...prevState,
+        text: isEdit.item.title,
+        btnDisabled: false
+      }));
+    }
+  }, [isEdit]);
+
+  const [state, setState] = useState({
+    text: "",
+    errorMessage: "",
+    btnDisabled: true
+  });
 
   function handleTextChange(e) {
-    if (text === "") {
-      setErrorMessage(null);
-      setBtnDisabled(true);
-    } else if (text !== "" && text.trim().length < 3) {
-      setErrorMessage("Text must be at least 3 characters long");
-      setBtnDisabled(true);
+    const newText = e.target.value;
+    if (newText === "") {
+      setState((prevState) => ({
+        ...prevState,
+        errorMessage: null,
+        btnDisabled: true
+      }));
+    } else if (newText !== "" && newText.trim().length < 3) {
+      setState((prevState) => ({
+        ...prevState,
+        errorMessage: "Text must be at least 3 characters long",
+        btnDisabled: true
+      }));
     } else {
-      setErrorMessage("");
-      setBtnDisabled(false);
+      setState((prevState) => ({
+        ...prevState,
+        errorMessage: "",
+        btnDisabled: false
+      }));
     }
-    setText(e.target.value);
+    setState((prevState) => ({ ...prevState, text: newText }));
   }
 
   function handleFormReset() {
-    setText("");
-    setErrorMessage(false);
-    setBtnDisabled(false);
+    setState({ text: "", errorMessage: "", btnDisabled: true });
   }
 
   function handleSubmit(e) {
     e.preventDefault();
-    if (text.trim().length > 3) {
+    if (state.text.trim().length >= 3) {
       const payload = {
         id: `#${Math.random().toString(26).substring(7).toUpperCase()}`,
-        title: text,
+        title: state.text,
         completed: false
       };
-      addTodo(payload);
+      if (isEdit.edit) {
+        updateTodo({
+          ...isEdit.item,
+          title: state.text
+        });
+      } else {
+        addTodo(payload);
+      }
       handleFormReset();
     }
   }
@@ -46,15 +76,20 @@ function TodoForm({ addTodo }) {
           type="text"
           placeholder="Add todo item"
           onInput={handleTextChange}
-          value={text}
+          value={state.text}
+          autoFocus
         />
-        <UiBtn type="submit" outerClass="btn-secondary" disabled={btnDisabled}>
-          Send
+        <UiBtn
+          type="submit"
+          outerClass="btn-secondary"
+          disabled={state.btnDisabled}
+        >
+          {!isEdit.edit ? "Add" : "Update"}
         </UiBtn>
       </div>
-      {errorMessage && <small className="error">{errorMessage}</small>}
+      {state.errorMessage && (
+        <small className="error">{state.errorMessage}</small>
+      )}
     </form>
   );
 }
-
-export default TodoForm;
