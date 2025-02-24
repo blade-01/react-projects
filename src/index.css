@@ -1,0 +1,54 @@
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap");
+@import "tailwindcss";
+
+@theme {
+  --color-sidebar-bg: hsl(223 36% 14%/ 1);
+  --color-sidebar-text: hsl(223deg 23% 46%);
+  --color-main-bg: hsl(223deg 30% 9%);
+  --color-main-text: hsl(224deg 23% 55%);
+  --color-caret: hsl(0 97% 63%);
+  --color-placeholder: hsl(223 3% 54%);
+  --font-outfit: "Outfit", sans-serif;
+}
+
+@layer base {
+  body {
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    font-optical-sizing: auto;
+    @apply font-outfit text-main-text bg-main-bg
+      font-light;
+  }
+  a.active {
+    @apply text-white;
+  }
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--color-sidebar-bg);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-sidebar-text);
+    border-radius: 10px;
+  }
+}
+
+@layer components {
+  .sidebar {
+    background-color: var(--color-sidebar-bg);
+    color: var(--color-sidebar-text);
+  }
+}
+
+@layer utilities {
+  .text-main {
+    color: var(--color-main-text);
+  }
+  .bg-main {
+    background-color: var(--color-main-bg);
+  }
+  .font-outfit {
+    font-family: var(--font-outfit);
+  }
+}
