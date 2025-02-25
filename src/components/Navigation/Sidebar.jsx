@@ -7,11 +7,11 @@ import { NavLink } from "react-router";
 
 export default function Sidebar() {
   return (
-    <div className="bg-sidebar-bg text-sidebar-text sticky z-10 md:fixed md:left-5 md:top-10 md:h-[95vh]  md:w-22 top-0 p-4 flex justify-between items-center md:flex-col md:justify-start md:rounded-[20px] md:py-6">
+    <div className="bg-sidebar-bg text-sidebar-text sticky z-10 xl:fixed xl:left-5 xl:top-1/2 xl:-translate-y-1/2 xl:h-[94dvh]  xl:w-22 top-0 p-4 flex justify-between items-center xl:flex-col xl:justify-start xl:rounded-[20px] xl:py-6">
       <NavLink to="/">
-        <RiMovie2AiLine className="text-[32px] md:text-[40px] text-caret" />
+        <RiMovie2AiLine className="text-[32px] xl:text-[40px] text-caret" />
       </NavLink>
-      <div className="flex justify-center items-center gap-5 md:flex-col w-full md:mt-14">
+      <div className="flex justify-center items-center gap-5 xl:gap-9 xl:flex-col w-full xl:mt-14">
         <NavLink to="/">
           <BiSolidDashboard size={24} />
         </NavLink>
@@ -25,11 +25,11 @@ export default function Sidebar() {
           <IoMdBookmark size={24} />
         </NavLink>
       </div>
-      <div className="md:mt-auto">
+      <div className="xl:mt-auto">
         <img
           src="https://avatars.githubusercontent.com/u/47092407?v=4"
           alt="avatar"
-          className="w-7 h-6 rounded-full md:w-8 md:h-8 border border-white"
+          className="w-7 h-6 rounded-full xl:w-8 xl:h-8 border border-white"
         />
       </div>
     </div>
