@@ -9,6 +9,7 @@
   --color-caret: hsl(0 97% 63%);
   --color-placeholder: hsl(223 3% 54%);
   --font-outfit: "Outfit", sans-serif;
+  --breakpoint-1xl: 1440px;
 }
 
 @layer base {
@@ -39,16 +40,22 @@
     background-color: var(--color-sidebar-bg);
     color: var(--color-sidebar-text);
   }
+
+  .bookmark-icon {
+    @apply absolute z-10 top-2 right-2 md:top-4 md:right-4 w-8 h-8 rounded-full bg-[#373e4db2] hover:bg-white transition-all ease-linear duration-200 grid place-items-center  cursor-pointer;
+  }
+
+  .home-media--card {
+    @apply relative min-w-[260px] sm:min-w-[480px] lg:min-w-[600px] xl:min-w-[440px] 1xl:!min-w-[500px] h-[120px] md:h-[180px] xl:h-[224px] rounded-md after:content-[''] after:absolute after:w-full after:h-full after:top-0 after:left-0 after:bg-[#070a0f6d];
+  }
 }
 
 @layer utilities {
-  .text-main {
-    color: var(--color-main-text);
+  .no-scrollbar {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
   }
-  .bg-main {
-    background-color: var(--color-main-bg);
-  }
-  .font-outfit {
-    font-family: var(--font-outfit);
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
   }
 }
