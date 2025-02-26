@@ -15,6 +15,7 @@ export default function Bookmarks() {
             <Card
               key={item}
               data={{
+                id: "1234",
                 poster:
                   "https://image.tmdb.org/t/p/original//xuLA0pii2IMJW2puT7EvJtgpg0H.jpg",
                 title: "Sonic Hedgehog",
