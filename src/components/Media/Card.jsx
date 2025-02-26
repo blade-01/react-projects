@@ -4,8 +4,10 @@ import { TbDeviceTvOld } from "react-icons/tb";
 import { RiFilmFill } from "react-icons/ri";
 import { LuDot } from "react-icons/lu";
 import { motion } from "motion/react";
+import { useNavigate } from "react-router";
 
 export default function Card({ data }) {
+  const navigateTo = useNavigate();
   return (
     <motion.div
       whileHover={{
@@ -16,6 +18,9 @@ export default function Card({ data }) {
         transition: { type: "spring", stiffness: 200, damping: 10 }
       }}
       className="relative cursor-pointer"
+      onClick={() => {
+        navigateTo(`/${data.type}/${data.id}`);
+      }}
     >
       <div className="absolute top-2 right-2 md:top-4 md:right-4 w-8 h-8 rounded-full bg-[#10141e80] hover:bg-white transition-all ease-linear duration-200 grid place-items-center group cursor-pointer">
         <IoBookmarkOutline className="text-white group-hover:text-black" />
@@ -30,12 +35,12 @@ export default function Card({ data }) {
           <p>{data.year}</p>
           <LuDot />
           <div className="flex gap-1">
-            {data.type === "movie" ? (
+            {data.type === "movies" ? (
               <RiFilmFill size={15} />
             ) : (
               <TbDeviceTvOld size={15} />
             )}
-            <p>{data.type === "movie" ? "Movie" : "TV Series"}</p>
+            <p>{data.type === "movies" ? "Movie" : "TV Series"}</p>
           </div>
           <LuDot />
           <p>18+</p>
@@ -48,6 +53,7 @@ export default function Card({ data }) {
 
 Card.propTypes = {
   data: PropTypes.shape({
+    id: PropTypes.string.isRequired,
     poster: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     year: PropTypes.number.isRequired,
