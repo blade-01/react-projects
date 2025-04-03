@@ -1,34 +1,66 @@
 import Search from "../components/Ui/Input/Search";
-import Card from "../components/Media/Card";
 import { useSearchParams } from "react-router";
+import useFetch from "../hooks/useFetch";
+import Card from "../components/Media/Card";
+import { useEffect } from "react";
 
 export default function SearchPage() {
-  const items = Array.from({ length: 10 }, (_, i) => i + 1);
   let [searchParams] = useSearchParams();
   const queryParams = searchParams.get("q");
+  const sourceParams = searchParams.get("source");
+  const { data, loading, fetchData } = useFetch(
+    sourceParams
+      ? `/search/${sourceParams}?query=${queryParams}`
+      : `/search/multi?query=${queryParams}`
+  );
+
+  useEffect(() => {
+    fetchData();
+  }, [queryParams]);
+
   return (
     <div>
-      <Search />
-      <div>
-        <h2 className="text-white font-light text-xl md:text-3xl pb-5">
-          Found 196 results for &quot;{queryParams}&quot;
-        </h2>
+      <Search
+        placeholder={
+          sourceParams
+            ? `Search for ${
+                sourceParams === "tv"
+                  ? "TV series"
+                  : sourceParams.toLocaleUpperCase()
+              }`
+            : `Search for movies or TV series`
+        }
+      />
+
+      <h2 className="text-white font-normal text-xl md:text-3xl capitalize mb-5">
+        Found 196 results for &quot;{queryParams}&quot;
+      </h2>
+      {loading ? (
+        <p>Loading ...</p>
+      ) : (
         <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-5 md:gap-7">
-          {items.map((item) => (
-            <Card
-              key={item}
-              data={{
-                id: "1234",
-                poster:
-                  "https://image.tmdb.org/t/p/original//xuLA0pii2IMJW2puT7EvJtgpg0H.jpg",
-                title: "Sonic Hedgehog",
-                year: 2025,
-                type: "series"
-              }}
-            />
-          ))}
+          {data?.results
+            ?.slice(0, data.results.length)
+            .filter((item) => item.media_type !== "person")
+            .map((item) => (
+              <Card
+                key={item.id}
+                data={{
+                  id: item.id,
+                  poster:
+                    item.backdrop_path || item.poster_path
+                      ? `https://image.tmdb.org/t/p/original/${
+                          item.backdrop_path || item.poster_path
+                        }`
+                      : "https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png",
+                  title: item.original_title || item.name,
+                  year: item.release_date || item.first_air_date,
+                  type: item.media_type || sourceParams
+                }}
+              />
+            ))}
         </div>
-      </div>
+      )}
     </div>
   );
 }
