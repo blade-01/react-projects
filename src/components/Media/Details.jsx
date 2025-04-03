@@ -26,14 +26,15 @@ export default function Details({ data }) {
           </p>
           <div className="md:flex gap-2 items-start mt-2">
             <p className="text-4xl md:text-5xl text-white font-medium">
-              {data.rating}
+              {data.rating.toFixed(1)}
             </p>
             <div className="flex justify-center mt-1.5 md:mt-2.5">
               <Rating
-                value={data.rating.toPrecision(1)}
+                value={data.rating.toFixed(1)}
                 readOnly
                 cancel={false}
                 className="text-white text-center"
+                stars={10}
               />
             </div>
           </div>
@@ -41,10 +42,12 @@ export default function Details({ data }) {
         <div className="flex justify-between gap-5 mt-5 max-w-[700px]">
           <div className="flex flex-col gap-1">
             <p className="text-placeholder font-medium text-sm md:text-lg">
-              Length
+              {data.type === "tv" ? "No. of Seasons" : "Length"}
             </p>
             <p className="text-white font-medium text-base md:text-lg">
-              118 min.
+              {data.type === "tv"
+                ? data.number_of_seasons
+                : `${data.length} min.`}
             </p>
           </div>
 
@@ -53,7 +56,7 @@ export default function Details({ data }) {
               Language
             </p>
             <p className="text-white font-medium text-base md:text-lg">
-              English
+              {data.language}
             </p>
           </div>
 
@@ -61,28 +64,34 @@ export default function Details({ data }) {
             <p className="text-placeholder font-medium text-sm md:text-lg">
               Year
             </p>
-            <p className="text-white font-medium text-base md:text-lg">2022</p>
+            <p className="text-white font-medium text-base md:text-lg">
+              {data.year}
+            </p>
           </div>
 
           <div className="flex flex-col gap-1">
             <p className="text-placeholder font-medium text-sm md:text-lg">
               Status
             </p>
-            <p className="text-white font-medium text-base md:text-lg">N/A</p>
+            <p className="text-white font-medium text-base md:text-lg">
+              {data.status}
+            </p>
           </div>
         </div>
         <div className="flex flex-col gap-5 mt-5">
           <div className="flex flex-col gap-1.5">
-            <p className="text-white font-semibold text-base md:text-lg">
-              Genres
-            </p>
+            {data.genres.length > 0 && (
+              <p className="text-white font-semibold text-base md:text-lg">
+                Genres
+              </p>
+            )}
             <div className="flex items-center flex-wrap gap-2 ">
               {data.genres.map((genre) => (
                 <p
                   className="text-sm text-main-bg bg-white rounded-md font-semibold py-0.5 px-1.5"
-                  key={genre}
+                  key={genre.id}
                 >
-                  {genre}
+                  {genre.name}
                 </p>
               ))}
             </div>
@@ -96,45 +105,53 @@ export default function Details({ data }) {
             </p>
           </div>
           <div className="flex flex-col gap-1.5">
-            <p className="text-white font-semibold text-base md:text-lg">
-              Casts
-            </p>
+            {data.casts.length > 0 && (
+              <p className="text-white font-semibold text-base md:text-lg">
+                Casts
+              </p>
+            )}
             <div className="flex items-center flex-wrap gap-2">
               {data.casts.map((cast) => (
                 <p
                   className="text-sm text-white border border-white rounded-md font-semibold py-0.5 px-1.5"
-                  key={cast}
+                  key={cast.id}
                 >
-                  {cast}
+                  {cast.name}
                 </p>
               ))}
             </div>
           </div>
         </div>
         <div className="flex gap-4 items-center mt-8 flex-wrap">
-          <a
-            href="https://youtube.com"
-            target="_blank"
-            className="px-4 py-2.5 w-40 bg-sidebar-text rounded-md text-white flex justify-center items-center gap-2 font-semibold"
-          >
-            <span>Watch Trailer</span>
-            <FaYoutube />
-          </a>
-          <a
-            href="https://netflix.com"
-            target="_blank"
-            className="px-4 py-2.5 w-40 bg-sidebar-text rounded-md text-white flex justify-center items-center gap-2 font-semibold"
-          >
-            <span>Website</span>
-            <FiLink />
-          </a>
-          <a
-            href="https://imdb.com"
-            target="_blank"
-            className="px-4 py-2.5 w-40 bg-sidebar-text rounded-md text-white flex justify-center items-center gap-2 font-semibold"
-          >
-            <span>IMDB</span> <FaImdb />
-          </a>
+          {data?.link?.youtube && (
+            <a
+              href={`https://www.youtube.com/watch?v=${data?.link?.youtube}`}
+              target="_blank"
+              className="px-4 py-2.5 w-40 bg-sidebar-text rounded-md text-white flex justify-center items-center gap-2 font-semibold"
+            >
+              <span>Watch Trailer</span>
+              <FaYoutube />
+            </a>
+          )}
+          {data?.link?.website && (
+            <a
+              href={data?.link?.website}
+              target="_blank"
+              className="px-4 py-2.5 w-40 bg-sidebar-text rounded-md text-white flex justify-center items-center gap-2 font-semibold"
+            >
+              <span>Website</span>
+              <FiLink />
+            </a>
+          )}
+          {data?.link?.imdb && (
+            <a
+              href={`https://imdb.com/title/${data?.link.imdb}`}
+              target="_blank"
+              className="px-4 py-2.5 w-40 bg-sidebar-text rounded-md text-white flex justify-center items-center gap-2 font-semibold"
+            >
+              <span>IMDB</span> <FaImdb />
+            </a>
+          )}
         </div>
       </div>
     </div>
@@ -152,6 +169,15 @@ Details.propTypes = {
     synopsis: PropTypes.string.isRequired,
     rating: PropTypes.number.isRequired,
     genres: PropTypes.array.isRequired,
-    casts: PropTypes.array.isRequired
+    casts: PropTypes.array.isRequired,
+    length: PropTypes.number,
+    language: PropTypes.string,
+    status: PropTypes.string,
+    number_of_seasons: PropTypes.number,
+    link: {
+      imdb: PropTypes.string,
+      website: PropTypes.string,
+      trailer: PropTypes.string
+    }
   }).isRequired
 };
