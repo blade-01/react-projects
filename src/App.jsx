@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router";
 import { PrimeReactProvider } from "primereact/api";
+import "primereact/resources/themes/lara-dark-blue/theme.css";
 import Sidebar from "./components/Navigation/Sidebar";
 import Home from "./pages/Home";
 import Movie from "./pages/Movie";
