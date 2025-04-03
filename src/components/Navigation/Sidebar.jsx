@@ -15,10 +15,10 @@ export default function Sidebar() {
         <NavLink to="/">
           <BiSolidDashboard size={24} />
         </NavLink>
-        <NavLink to="/movies">
+        <NavLink to="/movie">
           <RiFilmFill size={24} />
         </NavLink>
-        <NavLink to="/series">
+        <NavLink to="/tv">
           <TbDeviceTvOld size={24} />
         </NavLink>
         <NavLink to="/bookmarks">
