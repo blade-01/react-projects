@@ -1,14 +1,14 @@
-import Search from "../components/Ui/Input/Search";
+// import Search from "../components/Ui/Input/Search";
 import Card from "../components/Media/Card";
 
 export default function Bookmarks() {
   const items = Array.from({ length: 10 }, (_, i) => i + 1);
   return (
     <div>
-      <Search placeholder={"Search for bookmarked shows"} />
+      {/* <Search placeholder={"Search for bookmarked shows"} /> */}
       <div>
         <h2 className="text-white font-light text-xl md:text-3xl pb-5">
-          Bookmarked Shows
+          Bookmarked movies or TV series
         </h2>
         <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-5 md:gap-7">
           {items.map((item) => (
