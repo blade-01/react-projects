@@ -3,15 +3,23 @@ import { useParams } from "react-router";
 import useFetch from "../hooks/useFetch";
 import Btn from "../components/Ui/Btn";
 import Section from "../components/Media/Section";
+import { useEffect, useState } from "react";
 
 export default function MovieList() {
   const { type } = useParams();
 
-  const { data, loading } = useFetch(
-    `/${
-      type === "trending" ? "trending/movie/day" : `movie/${type}`
-    }?language=en-US`
-  );
+  const [page, setPage] = useState(undefined);
+  const { data, loading, fetchData } = useFetch("", {}, true);
+
+  useEffect(() => {
+    if (page) {
+      fetchData(
+        `/${
+          type === "trending" ? "trending/movie/day" : `movie/${type}`
+        }?language=en-US&page=${page}`
+      );
+    }
+  }, [page]);
 
   return (
     <div>
@@ -24,6 +32,7 @@ export default function MovieList() {
           data={data}
           loading={loading}
           type="movie"
+          setPage={setPage}
         />
       </div>
     </div>
