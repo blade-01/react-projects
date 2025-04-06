@@ -35,9 +35,11 @@ export default function Search({ placeholder, handleGenreSelection }) {
   const handleNavigation = (query) => {
     navigateTo(
       `${
-        isHomeOrSearch
-          ? `/search?q=${query}`
-          : `/search?q=${query}&source=${path}`
+        isHomeOrSearch && !searchParams.get("source")
+          ? `/search?q=${query}&page=1`
+          : `/search?q=${query}&source=${
+              searchParams.get("source") || path
+            }&page=1`
       }`
     );
   };
