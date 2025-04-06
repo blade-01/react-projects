@@ -2,6 +2,7 @@ import Search from "../components/Ui/Input/Search";
 import { useSearchParams } from "react-router";
 import useFetch from "../hooks/useFetch";
 import Card from "../components/Media/Card";
+// import Section from "../components/Media/Section";
 import { useEffect } from "react";
 
 export default function SearchPage() {
@@ -11,23 +12,21 @@ export default function SearchPage() {
   const { data, loading, fetchData } = useFetch(
     sourceParams
       ? `/search/${sourceParams}?query=${queryParams}`
-      : `/search/multi?query=${queryParams}`
+      : `/search/multi?query=${queryParams}`,
+    {},
+    true
   );
 
   useEffect(() => {
     fetchData();
-  }, [queryParams]);
+  }, [searchParams]);
 
   return (
     <div>
       <Search
         placeholder={
           sourceParams
-            ? `Search for ${
-                sourceParams === "tv"
-                  ? "TV series"
-                  : sourceParams.toLocaleUpperCase()
-              }`
+            ? `Search for ${sourceParams === "tv" ? "TV series" : "movies"}`
             : `Search for movies or TV series`
         }
       />
@@ -61,6 +60,36 @@ export default function SearchPage() {
             ))}
         </div>
       )}
+
+      {/* <Section
+        title={`Found 196 results for "${queryParams}"`}
+        isPaginated={true}
+        data={{
+          ...data,
+          results: data?.results
+            ?.filter((item) => item.media_type !== "person")
+            .map((item) => {
+              return {
+                ...item,
+                poster:
+                  item.backdrop_path || item.poster_path
+                    ? `https://image.tmdb.org/t/p/original/${
+                        item.backdrop_path || item.poster_path
+                      }`
+                    : "https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png",
+                title: item.original_title || item.name,
+                year: item.release_date || item.first_air_date,
+                type: item.media_type || sourceParams
+              };
+            })
+        }}
+        loading={loading}
+        type={
+          {
+            
+          }
+        }
+      /> */}
     </div>
   );
 }
