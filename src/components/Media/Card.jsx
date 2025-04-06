@@ -12,9 +12,8 @@ export default function Card({ data }) {
     <motion.div
       whileHover={{
         scale: 1.05,
-        rotateY: 10, // Adds 3D tilt
+        rotateY: 10,
         rotateX: -5,
-        // boxShadow: "0px 10px 20px rgba(0,0,0,0.2)", // Soft shadow effect
         transition: { type: "spring", stiffness: 200, damping: 10 }
       }}
       className="relative cursor-pointer"
@@ -32,7 +31,7 @@ export default function Card({ data }) {
       />
       <div className="p-0.5">
         <div className="flex gap-0.5 items-center text-xs text-gray-100 pb-0.5">
-          <p>{new Date(data.year).getFullYear()}</p>
+          <p>{data.year ? new Date(data.year).getFullYear() : "N/A"}</p>
           <LuDot />
           <div className="flex gap-1">
             {data.type === "movie" ? (
