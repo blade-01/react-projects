@@ -54,7 +54,7 @@ Card.propTypes = {
     id: PropTypes.string.isRequired,
     poster: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
-    year: PropTypes.number.isRequired,
+    year: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired
   }).isRequired
 };
