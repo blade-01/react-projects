@@ -2,63 +2,81 @@ import { FiSearch } from "react-icons/fi";
 import PropTypes from "prop-types";
 import { MultiSelect } from "primereact/multiselect";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate, useLocation, useSearchParams } from "react-router";
 import useFetch from "../../../hooks/useFetch";
 import { GrPowerReset } from "react-icons/gr";
 
 export default function Search({ placeholder, handleGenreSelection }) {
+  const [searchParams, setSearchParams] = useSearchParams();
   const navigateTo = useNavigate();
+  const location = useLocation();
+  const path = location.pathname.slice(1);
+  const isMovieOrTv = path === "movie" || path === "tv";
+  const isHomeOrSearch = path === "" || path === "search";
   const { data } = useFetch(
-    `/genre/${window.location.pathname.slice(1)}/list`,
+    `/genre/${path}/list`,
     {},
-    window.location.pathname.slice(1) === "tv" ||
-      window.location.pathname.slice(1) === "movie"
-      ? false
-      : true
+    isMovieOrTv ? false : true
   );
   const [selectedGenre, setSelectedGenre] = useState();
   const [genres, setGenres] = useState();
   const [search, setSearch] = useState("");
 
   useEffect(() => {
-    if (data) {
-      const genres =
-        data?.genres &&
-        data.genres.map((genre) => ({
-          name: genre.name,
-          id: genre.id
-        }));
+    if (data && data.genres) {
+      const genres = data?.genres.map((genre) => ({
+        name: genre.name,
+        id: genre.id
+      }));
       setGenres(genres);
     }
   }, [data]);
+
+  const handleNavigation = (query) => {
+    navigateTo(
+      `${
+        isHomeOrSearch
+          ? `/search?q=${query}`
+          : `/search?q=${query}&source=${path}`
+      }`
+    );
+  };
 
   const handleSearch = () => {
     if (search.trim() === "") {
       return;
     }
-    navigateTo(
-      `/search?q=${search}${
-        window.location.pathname.slice(1) !== "" &&
-        window.location.pathname.slice(1) !== "search"
-          ? `&source=${window.location.pathname.slice(1)}`
-          : ""
-      }`
-    );
+    handleNavigation(search);
   };
 
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
       e.preventDefault();
-      navigateTo(
-        `/search?q=${e.target.value}${
-          window.location.pathname.slice(1) !== "" &&
-          window.location.pathname.slice(1) !== "search"
-            ? `&source=${window.location.pathname.slice(1)}`
-            : ""
-        }`
-      );
+      handleNavigation(e.target.value);
     }
   };
+
+  const handleChange = (e) => {
+    setSelectedGenre(e);
+    searchParams.set("genre", e.join(","));
+    setSearchParams(searchParams);
+    handleGenreSelection(e.join(","));
+  };
+
+  const handleReset = () => {
+    setSelectedGenre([]);
+    searchParams.delete("genre");
+    setSearchParams(searchParams);
+    handleGenreSelection("");
+  };
+
+  useEffect(() => {
+    if (searchParams.get("genre")) {
+      const genre = searchParams.get("genre")?.split(",").map(Number) || [];
+      setSelectedGenre(genre);
+      handleGenreSelection(genre);
+    }
+  }, []);
 
   return (
     <div>
@@ -86,14 +104,12 @@ export default function Search({ placeholder, handleGenreSelection }) {
         </button>
       </div>
 
-      {(window.location.pathname.slice(1) === "tv" ||
-        window.location.pathname.slice(1) === "movie") && (
+      {isMovieOrTv && (
         <div className="flex items-center justify-end gap-2 mb-5">
           <MultiSelect
             value={selectedGenre}
             onChange={(e) => {
-              setSelectedGenre(e.value);
-              handleGenreSelection(e.value.join(","));
+              handleChange(e.value);
             }}
             options={genres}
             optionLabel="name"
@@ -106,10 +122,7 @@ export default function Search({ placeholder, handleGenreSelection }) {
           {selectedGenre?.length ? (
             <button
               className="grid place-items-center w-10 h-10 bg-sidebar-bg rounded-md text-white shadow-md cursor-pointer clear-icon"
-              onClick={() => {
-                setSelectedGenre([]);
-                handleGenreSelection("");
-              }}
+              onClick={() => handleReset()}
             >
               <GrPowerReset size="20px" />
             </button>
