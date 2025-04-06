@@ -26,15 +26,16 @@ export default function Details({ data }) {
           </p>
           <div className="md:flex gap-2 items-start mt-2">
             <p className="text-4xl md:text-5xl text-white font-medium">
-              {data.rating.toFixed(1)}
+              {data.rating.toFixed(1) / 2}
             </p>
             <div className="flex justify-center mt-1.5 md:mt-2.5">
               <Rating
-                value={data.rating.toFixed(1)}
+                value={data.rating.toFixed(1) / 2}
                 readOnly
                 cancel={false}
-                className="text-white text-center"
-                stars={10}
+                className="text-white text-center "
+                pt={{ onIcon: { className: "!text-white" } }}
+                stars={5}
               />
             </div>
           </div>
