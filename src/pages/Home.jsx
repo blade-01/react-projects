@@ -47,7 +47,7 @@ export default function Home() {
         data={trendingMovies}
         loading={trendingLoading}
         type="movie"
-        link="/movie/trending/list"
+        link="/movie/trending/list?page=1"
         isTrending
       />
       <Section
@@ -55,28 +55,28 @@ export default function Home() {
         data={popularMovies}
         loading={popularLoading}
         type="movie"
-        link="/movie/popular/list"
+        link="/movie/popular/list?page=1"
       />
       <Section
         title="Now Playing"
         data={nowPlayingMovies}
         loading={nowPlayingLoading}
         type="movie"
-        link="/movie/now_playing/list"
+        link="/movie/now_playing/list?page=1"
       />
       <Section
         title="Upcoming"
         data={upcomingMovies}
         loading={upcomingLoading}
         type="movie"
-        link="/movie/upcoming/list"
+        link="/movie/upcoming/list?page=1"
       />
       <Section
         title="Top Rated"
         data={topRatedMovies}
         loading={topRatedLoading}
         type="movie"
-        link="/movie/top_rated/list"
+        link="/movie/top_rated/list?page=1"
       />
 
       {/* TV Shows Section */}
@@ -86,35 +86,35 @@ export default function Home() {
         loading={trendingTvLoading}
         type="tv"
         isTrending
-        link="/tv/trending/list"
+        link="/tv/trending/list?page=1"
       />
       <Section
         title="Popular TV"
         data={popularTv}
         loading={popularTvLoading}
         type="tv"
-        link="/tv/popular/list"
+        link="/tv/popular/list?page=1"
       />
       <Section
         title="Airing Today"
         data={airingTodayTv}
         loading={airingTodayTvLoading}
         type="tv"
-        link="/tv/airing_today/list"
+        link="/tv/airing_today/list?page=1"
       />
       <Section
         title="On Air"
         data={onAirTv}
         loading={onAirTvLoading}
         type="tv"
-        link="/tv/on_the_air/list"
+        link="/tv/on_the_air/list?page=1"
       />
       <Section
         title="Top Rated TV"
         data={topRatedTv}
         loading={topRatedTvLoading}
         type="tv"
-        link="/tv/top_rated/list"
+        link="/tv/top_rated/list?page=1"
       />
     </div>
   );
