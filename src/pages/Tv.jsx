@@ -5,25 +5,24 @@ import { useEffect, useState } from "react";
 
 export default function Tv() {
   const [genres, setGenre] = useState(undefined);
-  const { data, loading, fetchData } = useFetch(
-    `/discover/tv?language=en-US${genres ? `&with_genres=${genres}` : ""}`
-  );
-
-  function handleGenre(genre) {
-    setGenre(genre);
-  }
+  const [page, setPage] = useState(undefined);
+  const { data, loading, fetchData } = useFetch("", {}, true);
 
   useEffect(() => {
-    if (genres !== undefined) {
-      fetchData();
+    if (page || genres) {
+      fetchData(
+        `/discover/tv?language=en-US${
+          genres ? `&with_genres=${genres}` : ""
+        }&page=${page}`
+      );
     }
-  }, [genres]);
+  }, [page, genres]);
 
   return (
     <div>
       <Search
         placeholder={"Search for TV series"}
-        handleGenreSelection={handleGenre}
+        handleGenreSelection={setGenre}
       />
       <Section
         title="TV Series"
@@ -31,6 +30,7 @@ export default function Tv() {
         data={data}
         loading={loading}
         type="tv"
+        setPage={setPage}
       />
     </div>
   );
