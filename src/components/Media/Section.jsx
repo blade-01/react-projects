@@ -4,6 +4,7 @@ import Card from "./Card";
 import Trending from "./Trending";
 import { Paginator } from "primereact/paginator";
 import { useEffect, useState } from "react";
+import AuthModal from "../Auth/Modal";
 
 export default function Section({
   title,
@@ -33,8 +34,10 @@ export default function Section({
     }
   }, [searchParams]);
 
+  const [visible, setVisible] = useState(false);
   return (
     <>
+      <AuthModal visible={visible} setVisible={setVisible} />
       <div className="mb-10">
         <div className="flex justify-between items-center mb-5">
           <div className="flex items-center gap-1.5">
@@ -83,6 +86,7 @@ export default function Section({
                           : item.first_air_date,
                       type
                     }}
+                    openModal={() => setVisible(true)}
                   />
                 ) : (
                   <Card
@@ -101,6 +105,7 @@ export default function Section({
                           : item.first_air_date,
                       type
                     }}
+                    openModal={() => setVisible(true)}
                   />
                 )
               )}
