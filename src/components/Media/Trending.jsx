@@ -5,7 +5,7 @@ import { RiFilmFill } from "react-icons/ri";
 import { LuDot } from "react-icons/lu";
 import { useNavigate } from "react-router";
 
-export default function Trending({ data }) {
+export default function Trending({ data, openModal }) {
   const navigateTo = useNavigate();
   return (
     <div
@@ -14,7 +14,13 @@ export default function Trending({ data }) {
         navigateTo(`/${data.type}/${data.id}`);
       }}
     >
-      <div className="bookmark-icon group">
+      <div
+        className="bookmark-icon group"
+        onClick={(e) => {
+          e.stopPropagation();
+          openModal();
+        }}
+      >
         <IoBookmarkOutline className="text-white group-hover:text-black" />
       </div>
       <div className="relative overflow-hidden rounded-md">
@@ -54,5 +60,6 @@ Trending.propTypes = {
     title: PropTypes.string.isRequired,
     year: PropTypes.number.isRequired,
     type: PropTypes.string.isRequired
-  }).isRequired
+  }).isRequired,
+  openModal: PropTypes.func
 };
