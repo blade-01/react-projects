@@ -1,15 +1,12 @@
 import Search from "../components/Ui/Input/Search";
 import { useParams } from "react-router";
+import { useState, useEffect } from "react";
 import useFetch from "../hooks/useFetch";
 import Btn from "../components/Ui/Btn";
 import Section from "../components/Media/Section";
 
 export default function TvList() {
   const { type } = useParams();
-
-  const { data, loading } = useFetch(
-    `/${type === "trending" ? "trending/tv/day" : `tv/${type}`}?language=en-US`
-  );
 
   function pageName(name) {
     switch (name) {
@@ -22,6 +19,19 @@ export default function TvList() {
     }
   }
 
+  const [page, setPage] = useState(undefined);
+  const { data, loading, fetchData } = useFetch("", {}, true);
+
+  useEffect(() => {
+    if (page) {
+      fetchData(
+        `/${
+          type === "trending" ? "trending/tv/day" : `tv/${type}`
+        }?language=en-US&page=${page}`
+      );
+    }
+  }, [page]);
+
   return (
     <div>
       <Search placeholder={"Search for TV series"} />
@@ -33,6 +43,7 @@ export default function TvList() {
           data={data}
           loading={loading}
           type="tv"
+          setPage={setPage}
         />
       </div>
     </div>
