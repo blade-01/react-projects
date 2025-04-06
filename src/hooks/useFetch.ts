@@ -7,14 +7,15 @@ function useFetch(url: string, options?: any, noFetch: boolean = false) {
   const fetchedRef = useRef(false);
   const BASE_URL = (import.meta as any).env.VITE_BASE_URL;
   const API_KEY = (import.meta as any).env.VITE_API_KEY;
-  async function fetchData() {
+  async function fetchData(customUrl: string = url) {
     try {
       setLoading(true);
-      const response = await fetch(`${BASE_URL}${url}`, {
+      const response = await fetch(`${BASE_URL}${customUrl}`, {
         headers: {
           accept: "application/json",
           Authorization: `Bearer ${API_KEY}`
-        }
+        },
+        ...options
       });
       const data = await response.json();
       setData(data);
@@ -26,10 +27,9 @@ function useFetch(url: string, options?: any, noFetch: boolean = false) {
   }
 
   useEffect(() => {
-    if (fetchedRef.current) return; // ✅ If already fetched, stop execution
-    fetchedRef.current = true; // ✅ Mark as fetched
-    if (noFetch) return; // ✅ If noFetch is true, stop execution
-    fetchData(); // ✅ Fetch data
+    if (fetchedRef.current || noFetch) return;
+    fetchedRef.current = true;
+    fetchData();
   }, []);
 
   return {
