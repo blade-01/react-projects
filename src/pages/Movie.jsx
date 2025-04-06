@@ -5,25 +5,24 @@ import { useEffect, useState } from "react";
 
 export default function Movie() {
   const [genres, setGenre] = useState(undefined);
-  const { data, loading, fetchData } = useFetch(
-    `/discover/movie?language=en-US${genres ? `&with_genres=${genres}` : ""}`
-  );
-
-  function handleGenre(genre) {
-    setGenre(genre);
-  }
+  const [page, setPage] = useState(undefined);
+  const { data, loading, fetchData } = useFetch("", {}, true);
 
   useEffect(() => {
-    if (genres !== undefined) {
-      fetchData();
+    if (page || genres) {
+      fetchData(
+        `/discover/movie?language=en-US${
+          genres ? `&with_genres=${genres}` : ""
+        }&page=${page}`
+      );
     }
-  }, [genres]);
+  }, [page, genres]);
 
   return (
     <div>
       <Search
         placeholder={"Search for movies"}
-        handleGenreSelection={handleGenre}
+        handleGenreSelection={setGenre}
       />
       <Section
         title="Movies"
@@ -31,6 +30,7 @@ export default function Movie() {
         data={data}
         loading={loading}
         type="movie"
+        setPage={setPage}
       />
     </div>
   );
