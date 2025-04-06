@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { NavLink, useSearchParams, useLocation } from "react-router";
+import { NavLink, useSearchParams } from "react-router";
 import Card from "./Card";
 import Trending from "./Trending";
 import { Paginator } from "primereact/paginator";
@@ -25,19 +25,7 @@ export default function Section({
     setSearchParams(searchParams);
   };
 
-  const location = useLocation();
-
   useEffect(() => {
-    if (
-      (location.pathname === "/tv" || location.pathname === "/movie") &&
-      (searchParams.get("page") === null ||
-        searchParams.get("page") === undefined)
-    ) {
-      searchParams.set("page", 1);
-      setSearchParams(searchParams);
-      return;
-    }
-
     if (searchParams.get("page")) {
       const pageNum = parseInt(searchParams.get("page"));
       setFirst((pageNum - 1) * 10);
