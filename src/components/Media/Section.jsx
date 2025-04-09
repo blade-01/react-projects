@@ -5,6 +5,9 @@ import Trending from "./Trending";
 import { Paginator } from "primereact/paginator";
 import { useEffect, useState } from "react";
 import AuthModal from "../Auth/Modal";
+import useBookmark from "../../hooks/useBookmark";
+import { Toast } from "primereact/toast";
+import Loader from "../Ui/Loader";
 
 export default function Section({
   title,
@@ -14,10 +17,11 @@ export default function Section({
   isTrending = false,
   isPaginated = false,
   link,
-  setPage
+  setPage,
+  setRefresh,
+  refreshPage
 }) {
   const [searchParams, setSearchParams] = useSearchParams();
-
   const [first, setFirst] = useState(0);
 
   const onPageChange = (event) => {
@@ -34,10 +38,27 @@ export default function Section({
     }
   }, [searchParams]);
 
-  const [visible, setVisible] = useState(false);
+  const {
+    handleBookmarking,
+    isBookmarking,
+    bookmarks,
+    selectedItem,
+    visible,
+    setVisible,
+    toast,
+    refresh
+  } = useBookmark(data, false);
+
+  useEffect(() => {
+    if (refreshPage) {
+      setRefresh();
+    }
+  }, [refresh]);
+
   return (
     <>
       <AuthModal visible={visible} setVisible={setVisible} />
+      <Toast ref={toast} />
       <div className="mb-10">
         <div className="flex justify-between items-center mb-5">
           <div className="flex items-center gap-1.5">
@@ -61,7 +82,13 @@ export default function Section({
           )}
         </div>
         {loading ? (
-          <p>Loading {title.toLowerCase()}...</p>
+          <Loader />
+        ) : !loading && data?.results?.length === 0 ? (
+          <div className="text-center text-white py-10">
+            <p className="text-lg md:text-xl font-light">
+              No {type === "movie" ? "movies" : "TV shows"} found.
+            </p>
+          </div>
         ) : (
           <div
             className={`${
@@ -86,7 +113,9 @@ export default function Section({
                           : item.first_air_date,
                       type
                     }}
-                    openModal={() => setVisible(true)}
+                    openModal={() => handleBookmarking({ ...item, type })}
+                    loading={isBookmarking && selectedItem === item.id}
+                    bookmarked={bookmarks.includes(String(item.id))}
                   />
                 ) : (
                   <Card
@@ -105,7 +134,9 @@ export default function Section({
                           : item.first_air_date,
                       type
                     }}
-                    openModal={() => setVisible(true)}
+                    openModal={() => handleBookmarking({ ...item, type })}
+                    loading={isBookmarking && selectedItem === item.id}
+                    bookmarked={bookmarks.includes(String(item.id))}
                   />
                 )
               )}
@@ -141,5 +172,8 @@ Section.propTypes = {
   isTrending: PropTypes.bool,
   isPaginated: PropTypes.bool,
   link: PropTypes.string,
-  setPage: PropTypes.func
+  setPage: PropTypes.func,
+  setRefresh: PropTypes.func,
+  refreshPage: PropTypes.bool,
+  height: PropTypes.string
 };
