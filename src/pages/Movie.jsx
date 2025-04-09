@@ -23,6 +23,7 @@ export default function Movie() {
       <Search
         placeholder={"Search for movies"}
         handleGenreSelection={setGenre}
+        showFilter
       />
       <Section
         title="Movies"
