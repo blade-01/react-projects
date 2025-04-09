@@ -10,7 +10,7 @@ export default function Search({ placeholder, handleGenreSelection }) {
   const [searchParams, setSearchParams] = useSearchParams();
   const navigateTo = useNavigate();
   const location = useLocation();
-  const path = location.pathname.slice(1);
+  const path = location.pathname.split("/")[1];
   const isMovieOrTv = path === "movie" || path === "tv";
   const isHomeOrSearch = path === "" || path === "search";
   const { data } = useFetch(
