@@ -3,6 +3,7 @@ import Btn from "../components/Ui/Btn";
 import Details from "../components/Media/Details";
 import Search from "../components/Ui/Input/Search";
 import useFetch from "../hooks/useFetch";
+import Loader from "../components/Ui/Loader";
 
 export default function MovieDetail() {
   const { id } = useParams();
@@ -11,7 +12,7 @@ export default function MovieDetail() {
   );
 
   // Display loading state or error
-  if (loading) return <p>Loading movie details...</p>;
+  if (loading) return <Loader height={"h-[80vh]"} />;
   if (error) return <p>Something went wrong! {error.message}</p>;
 
   return (
