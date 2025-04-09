@@ -1,11 +1,14 @@
 import PropTypes from "prop-types";
-import { IoBookmarkOutline } from "react-icons/io5";
+import { IoBookmarkOutline, IoBookmark } from "react-icons/io5";
 import { TbDeviceTvOld } from "react-icons/tb";
 import { RiFilmFill } from "react-icons/ri";
 import { LuDot } from "react-icons/lu";
+import { TbLoader } from "react-icons/tb";
 import { useNavigate } from "react-router";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import "react-lazy-load-image-component/src/effects/blur.css";
 
-export default function Trending({ data, openModal }) {
+export default function Trending({ data, openModal, loading, bookmarked }) {
   const navigateTo = useNavigate();
   return (
     <div
@@ -21,14 +24,23 @@ export default function Trending({ data, openModal }) {
           openModal();
         }}
       >
-        <IoBookmarkOutline className="text-white group-hover:text-black" />
+        {loading ? (
+          <TbLoader className="animate-spin" />
+        ) : bookmarked ? (
+          <IoBookmark className="text-white group-hover:text-black" />
+        ) : (
+          <IoBookmarkOutline className="text-white group-hover:text-black" />
+        )}
       </div>
       <div className="relative overflow-hidden rounded-md">
-        <div className="home-media--card  transition duration-300 transform hover:scale-105">
-          <img
+        <div className="home-media--card transition duration-300 transform hover:scale-105">
+          <LazyLoadImage
             src={data.poster}
-            alt="banner"
-            className="w-full h-full rounded-md object-cover "
+            alt={data.title}
+            effect="blur"
+            placeholderSrc="https://miro.medium.com/v2/resize:fit:832/format:webp/1*wyI7Pb_WLjVry95xLx93eg.gif"
+            className="w-full h-full rounded-md object-cover"
+            wrapperClassName="min-w-[260px] sm:min-w-[480px] lg:min-w-[600px] xl:min-w-[440px] 1xl:!min-w-[500px] h-[120px] md:h-[180px] xl:h-[224px] rounded-md overflow-hidden"
           />
         </div>
       </div>
@@ -61,5 +73,7 @@ Trending.propTypes = {
     year: PropTypes.number.isRequired,
     type: PropTypes.string.isRequired
   }).isRequired,
-  openModal: PropTypes.func
+  openModal: PropTypes.func,
+  loading: PropTypes.bool,
+  bookmarked: PropTypes.bool
 };
