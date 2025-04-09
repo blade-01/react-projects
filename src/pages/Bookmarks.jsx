@@ -1,31 +1,46 @@
-// import Search from "../components/Ui/Input/Search";
-import Card from "../components/Media/Card";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { useEffect, useState } from "react";
+import Section from "../components/Media/Section";
+import useBookmark from "../hooks/useBookmark";
 
 export default function Bookmarks() {
-  const items = Array.from({ length: 10 }, (_, i) => i + 1);
+  const { fetchBookmarks, bookmarks, loading } = useBookmark({}, true);
+  const auth = getAuth();
+  const [authUser, setAuthUser] = useState(null);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        fetchBookmarks(user.uid);
+        setAuthUser(user);
+      }
+    });
+
+    return () => unsubscribe(); // cleanup the listener
+  }, []);
+
   return (
     <div>
-      {/* <Search placeholder={"Search for bookmarked shows"} /> */}
-      <div>
-        <h2 className="text-white font-light text-xl md:text-3xl pb-5">
-          Bookmarked movies or TV series
-        </h2>
-        <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-5 md:gap-7">
-          {items.map((item) => (
-            <Card
-              key={item}
-              data={{
-                id: "1234",
-                poster:
-                  "https://image.tmdb.org/t/p/original//xuLA0pii2IMJW2puT7EvJtgpg0H.jpg",
-                title: "Sonic Hedgehog",
-                year: 2025,
-                type: "series"
-              }}
-            />
-          ))}
-        </div>
-      </div>
+      <Section
+        title="Bookmarked Movies"
+        data={{
+          results: bookmarks.filter((item) => item.type === "movie")
+        }}
+        loading={loading}
+        type="movie"
+        refreshPage={true}
+        setRefresh={() => (authUser?.uid ? fetchBookmarks(authUser?.uid) : "")}
+      />
+      <Section
+        title="Bookmarked TV shows"
+        data={{
+          results: bookmarks.filter((item) => item.type === "tv")
+        }}
+        loading={loading}
+        type="tv"
+        refreshPage={true}
+        setRefresh={() => (authUser?.uid ? fetchBookmarks(authUser?.uid) : "")}
+      />
     </div>
   );
 }
