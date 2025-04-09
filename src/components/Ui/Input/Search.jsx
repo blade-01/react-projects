@@ -6,7 +6,11 @@ import { useNavigate, useLocation, useSearchParams } from "react-router";
 import useFetch from "../../../hooks/useFetch";
 import { GrPowerReset } from "react-icons/gr";
 
-export default function Search({ placeholder, handleGenreSelection }) {
+export default function Search({
+  placeholder,
+  handleGenreSelection,
+  showFilter = false
+}) {
   const [searchParams, setSearchParams] = useSearchParams();
   const navigateTo = useNavigate();
   const location = useLocation();
@@ -106,7 +110,7 @@ export default function Search({ placeholder, handleGenreSelection }) {
         </button>
       </div>
 
-      {isMovieOrTv && (
+      {showFilter && (
         <div className="flex items-center justify-end gap-2 mb-5">
           <MultiSelect
             value={selectedGenre}
@@ -139,5 +143,6 @@ export default function Search({ placeholder, handleGenreSelection }) {
 
 Search.propTypes = {
   placeholder: PropTypes.string,
-  handleGenreSelection: PropTypes.func
+  handleGenreSelection: PropTypes.func,
+  showFilter: PropTypes.bool
 };
