@@ -1,19 +1,65 @@
 import PropTypes from "prop-types";
 import { Dialog } from "primereact/dialog";
+import { GoogleAuthProvider, getAuth, signInWithPopup } from "firebase/auth";
+import { FaGoogle } from "react-icons/fa";
+import { RiMovie2AiLine } from "react-icons/ri";
+import { Toast } from "primereact/toast";
+import { useRef } from "react";
 
 export default function AuthModal({ visible, setVisible }) {
+  const provider = new GoogleAuthProvider();
+  const auth = getAuth();
+  const toast = useRef(null);
+  async function handleGoogleSignIn() {
+    try {
+      await signInWithPopup(auth, provider);
+      setVisible(false);
+      toast.current.show({
+        severity: "success",
+        summary: "Success",
+        detail: "Signed in successfully 🎉"
+      });
+    } catch (error) {
+      toast.current.show({
+        severity: "error",
+        summary: "Error",
+        detail: error.message
+      });
+    }
+  }
+
+  const headerElement = (
+    <div className="inline-flex items-center gap-2">
+      <RiMovie2AiLine className="text-[32px] xl:text-[40px] text-caret" />
+      <span className="font-bold white-space-nowrap">Sign In</span>
+    </div>
+  );
+
   return (
     <div className="card flex justify-content-center">
+      <Toast ref={toast} />
       <Dialog
-        header="Header"
+        header={headerElement}
         visible={visible}
-        style={{ width: "50vw" }}
+        className="w-[90%] md:w-1/2 lg:w-1/3"
         onHide={() => {
           if (!visible) return;
           setVisible(false);
         }}
       >
-        <p className="m-0">Lorem ipsum dolor sit amet...</p>
+        <div className="grid place-items-center ">
+          <RiMovie2AiLine className="text-[32px] xl:text-[40px] text-caret" />
+          <p className="text-sm text-white my-3">
+            Sign in to your account to continue
+          </p>
+          <button
+            className="border-none outline-none flex justify-center gap-2 items-center w-full sm:w-[70%] bg-white text-main-bg font-medium text-sm rounded-md px-4 py-2.5 cursor-pointer"
+            onClick={() => handleGoogleSignIn()}
+          >
+            <FaGoogle size={"24px"} />
+            <span>Sign in with Google</span>
+          </button>
+        </div>
       </Dialog>
     </div>
   );
