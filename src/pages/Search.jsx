@@ -4,6 +4,7 @@ import useFetch from "../hooks/useFetch";
 import Card from "../components/Media/Card";
 import { Paginator } from "primereact/paginator";
 import { useEffect, useState } from "react";
+import Loader from "../components/Ui/Loader";
 
 export default function SearchPage() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -45,7 +46,7 @@ export default function SearchPage() {
         Found {data?.total_results} results for &quot;{queryParams}&quot;
       </h2>
       {loading ? (
-        <p>Loading ...</p>
+        <Loader height={"h-[50vh]"} />
       ) : (
         <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-5 md:gap-7">
           {data?.results
