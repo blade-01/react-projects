@@ -3,16 +3,21 @@ import { Rating } from "primereact/rating";
 import { FaImdb } from "react-icons/fa";
 import { FiLink } from "react-icons/fi";
 import { FaYoutube } from "react-icons/fa";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import "react-lazy-load-image-component/src/effects/blur.css";
 
 export default function Details({ data }) {
   return (
     <div className="my-5 md:flex gap-x-10">
       <div className="grid place-items-center md:place-items-start md:basis-1/2 lg:basis-[40%] xl:basis-[25%]">
         <div className=" rounded-lg h-[250px] w-[180px] md:h-[500px] lg:h-[520px] md:w-full object-cover col-span-1">
-          <img
+          <LazyLoadImage
             src={data.poster}
-            alt=""
-            className="rounded-lg h-full w-full object-cover"
+            alt={data.title}
+            effect="blur"
+            placeholderSrc="https://miro.medium.com/v2/resize:fit:832/format:webp/1*wyI7Pb_WLjVry95xLx93eg.gif"
+            className="rounded-lg w-full md:h-[500px] lg:h-[520px] object-cover"
+            wrapperClassName="rounded-lg w-full md:h-[500px] lg:h-[520px] overflow-hidden"
           />
         </div>
       </div>
