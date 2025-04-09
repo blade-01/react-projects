@@ -94,7 +94,7 @@ export default function Search({
           className="bg-transparent text-white placeholder:text-placeholder placeholder:text-[15px] md:placeholder:text-2xl h-8 py-2 w-full outline-none caret-caret focus:border-b focus:border-b-main-text"
           placeholder={placeholder || "Search for movies or TV series"}
           value={search}
-          onInput={(e) => {
+          onChange={(e) => {
             setSearch(e.target.value);
           }}
           onKeyDown={(e) => {
