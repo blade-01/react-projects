@@ -23,6 +23,7 @@ export default function Tv() {
       <Search
         placeholder={"Search for TV series"}
         handleGenreSelection={setGenre}
+        showFilter
       />
       <Section
         title="TV Series"
