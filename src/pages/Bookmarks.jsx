@@ -3,8 +3,10 @@ import { useEffect, useState } from "react";
 import Section from "../components/Media/Section";
 import useBookmark from "../hooks/useBookmark";
 import { FiSearch } from "react-icons/fi";
+import AuthModal from "../components/Auth/Modal";
 
 export default function Bookmarks() {
+  const [visible, setVisible] = useState(false);
   const [authUser, setAuthUser] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredBookmarks, setFilteredBookmarks] = useState([]);
@@ -16,6 +18,8 @@ export default function Bookmarks() {
       if (user) {
         fetchBookmarks(user.uid);
         setAuthUser(user);
+      } else {
+        setVisible(true);
       }
     });
 
@@ -36,6 +40,8 @@ export default function Bookmarks() {
 
   return (
     <div>
+      <AuthModal visible={visible} setVisible={setVisible} />
+
       <div className="relative bg-transparent p-2 flex items-center gap-2 mb-4 basis-[80%]">
         <FiSearch className="text-white text-[25px] md:text-3xl" />
 
