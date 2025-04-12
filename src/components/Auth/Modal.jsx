@@ -4,27 +4,31 @@ import { GoogleAuthProvider, getAuth, signInWithPopup } from "firebase/auth";
 import { FaGoogle } from "react-icons/fa";
 import { RiMovie2AiLine } from "react-icons/ri";
 import { Toast } from "primereact/toast";
-import { useRef } from "react";
-
+import { useRef, useState } from "react";
+import { FiLoader } from "react-icons/fi";
 export default function AuthModal({ visible, setVisible }) {
+  const [loading, setLoading] = useState(false);
   const provider = new GoogleAuthProvider();
   const auth = getAuth();
   const toast = useRef(null);
   async function handleGoogleSignIn() {
     try {
+      setLoading(true);
       await signInWithPopup(auth, provider);
       setVisible(false);
-      toast.current.show({
-        severity: "success",
-        summary: "Success",
-        detail: "Signed in successfully 🎉"
-      });
+      // toast.current.show({
+      //   severity: "success",
+      //   summary: "Success",
+      //   detail: "Signed in successfully 🎉"
+      // });
     } catch (error) {
       toast.current.show({
         severity: "error",
         summary: "Error",
         detail: error.message
       });
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -53,10 +57,15 @@ export default function AuthModal({ visible, setVisible }) {
             Sign in to your account to continue
           </p>
           <button
-            className="border-none outline-none flex justify-center gap-2 items-center w-full sm:w-[70%] bg-white text-main-bg font-medium text-sm rounded-md px-4 py-2.5 cursor-pointer"
+            className="border-none outline-none flex justify-center gap-2 items-center w-full sm:w-[70%] bg-white text-main-bg font-medium text-sm rounded-md px-4 py-2.5 cursor-pointer disabled:opacity-50 disabled:cursor-wait"
             onClick={() => handleGoogleSignIn()}
+            disabled={loading}
           >
-            <FaGoogle size={"24px"} />
+            {loading ? (
+              <FiLoader size={"24px"} className="animate-spin" />
+            ) : (
+              <FaGoogle size={"24px"} />
+            )}
             <span>Sign in with Google</span>
           </button>
         </div>
