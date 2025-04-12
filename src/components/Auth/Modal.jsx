@@ -16,11 +16,6 @@ export default function AuthModal({ visible, setVisible }) {
       setLoading(true);
       await signInWithPopup(auth, provider);
       setVisible(false);
-      // toast.current.show({
-      //   severity: "success",
-      //   summary: "Success",
-      //   detail: "Signed in successfully 🎉"
-      // });
     } catch (error) {
       toast.current.show({
         severity: "error",
