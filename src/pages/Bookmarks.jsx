@@ -62,6 +62,7 @@ export default function Bookmarks() {
         <button
           className="bg-sidebar-bg text-white py-2 w-24 flex justify-center gap-2.5 items-center rounded-md cursor-pointer"
           onClick={handleFiltering}
+          aria-label="Filter bookmarks"
         >
           <span>Search</span>
         </button>
