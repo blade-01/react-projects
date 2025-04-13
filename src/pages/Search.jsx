@@ -5,6 +5,9 @@ import Card from "../components/Media/Card";
 import { Paginator } from "primereact/paginator";
 import { useEffect, useState } from "react";
 import Loader from "../components/Ui/Loader";
+import useBookmark from "../hooks/useBookmark";
+import AuthModal from "../components/Auth/Modal";
+import { Toast } from "primereact/toast";
 
 export default function SearchPage() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -32,8 +35,21 @@ export default function SearchPage() {
     }
   }, [searchParams]);
 
+  const {
+    handleBookmarking,
+    isBookmarking,
+    bookmarks,
+    selectedItem,
+    visible,
+    setVisible,
+    toast
+    // refresh
+  } = useBookmark(data, false);
+
   return (
     <div>
+      <AuthModal visible={visible} setVisible={setVisible} />
+      <Toast ref={toast} />
       <Search
         placeholder={
           sourceParams
@@ -66,6 +82,14 @@ export default function SearchPage() {
                   year: item.release_date || item.first_air_date,
                   type: item.media_type || sourceParams
                 }}
+                openModal={() =>
+                  handleBookmarking({
+                    ...item,
+                    type: item.media_type || sourceParams
+                  })
+                }
+                loading={isBookmarking && selectedItem === item.id}
+                bookmarked={bookmarks.includes(String(item.id))}
               />
             ))}
         </div>
