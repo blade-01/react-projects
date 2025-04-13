@@ -105,6 +105,7 @@ export default function Search({
         <button
           className="bg-sidebar-bg text-white py-2 w-24 flex justify-center gap-2.5 items-center rounded-md cursor-pointer"
           onClick={handleSearch}
+          aria-label="Search"
         >
           <span>Search</span>
         </button>
@@ -129,6 +130,7 @@ export default function Search({
             <button
               className="grid place-items-center w-10 h-10 bg-sidebar-bg rounded-md text-white shadow-md cursor-pointer clear-icon"
               onClick={() => handleReset()}
+              aria-label="Reset"
             >
               <GrPowerReset size="20px" />
             </button>
