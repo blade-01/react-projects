@@ -17,18 +17,20 @@ function App() {
     <PrimeReactProvider>
       <Router>
         <Sidebar />
-        <div className="xl:ml-30 xl:mt-8 2xl:mt-10 p-4 2xl:mx-auto max-w-[1500px]">
-          <Routes>
-            <Route index element={<Home />} />
-            <Route path="/movie" element={<Movie />} />
-            <Route path="/tv" element={<Tv />} />
-            <Route path="/bookmarks" element={<Bookmarks />} />
-            <Route path="/search" element={<Search />} />
-            <Route path="/movie/:id" element={<MovieDetail />} />
-            <Route path="/movie/:type/list" element={<MovieList />} />
-            <Route path="/tv/:id" element={<TvDetail />} />
-            <Route path="/tv/:type/list" element={<TvList />} />
-          </Routes>
+        <div className="xl:mt-8 xl:ml-30 2xl:mt-10 p-4 w-full xl:w-[calc(100%-120px)]">
+          <div className="xl:mx-auto xl:w-full xl:max-w-[1300px]">
+            <Routes>
+              <Route index element={<Home />} />
+              <Route path="/movie" element={<Movie />} />
+              <Route path="/tv" element={<Tv />} />
+              <Route path="/bookmarks" element={<Bookmarks />} />
+              <Route path="/search" element={<Search />} />
+              <Route path="/movie/:id" element={<MovieDetail />} />
+              <Route path="/movie/:type/list" element={<MovieList />} />
+              <Route path="/tv/:id" element={<TvDetail />} />
+              <Route path="/tv/:type/list" element={<TvList />} />
+            </Routes>
+          </div>
         </div>
       </Router>
     </PrimeReactProvider>
