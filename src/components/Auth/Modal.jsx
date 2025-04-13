@@ -55,6 +55,7 @@ export default function AuthModal({ visible, setVisible }) {
             className="border-none outline-none flex justify-center gap-2 items-center w-full sm:w-[70%] bg-white text-main-bg font-medium text-sm rounded-md px-4 py-2.5 cursor-pointer disabled:opacity-50 disabled:cursor-wait"
             onClick={() => handleGoogleSignIn()}
             disabled={loading}
+            aria-label="Sign in with Google"
           >
             {loading ? (
               <FiLoader size={"24px"} className="animate-spin" />
