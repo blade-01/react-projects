@@ -9,7 +9,7 @@ import "react-lazy-load-image-component/src/effects/blur.css";
 export default function Details({ data }) {
   return (
     <div className="my-5 md:flex gap-x-10">
-      <div className="grid place-items-center md:place-items-start md:basis-1/2 lg:basis-[40%] xl:basis-[25%]">
+      <div className="grid place-items-center md:place-items-start md:basis-1/2 lg:basis-[40%] xl:basis-[30%]">
         <div className=" rounded-lg h-[250px] w-[180px] md:h-[500px] lg:h-[520px] md:w-full object-cover col-span-1">
           <LazyLoadImage
             src={data.poster}
@@ -21,7 +21,7 @@ export default function Details({ data }) {
           />
         </div>
       </div>
-      <div className="mt-5 md:mt-0 md:basis-1/2 lg:basis-[60%] xl:basis-[75%]">
+      <div className="mt-5 md:mt-0 md:basis-1/2 lg:basis-[60%] xl:basis-[70%]">
         <div className="text-center md:text-left flex flex-col gap-2">
           <h1 className="text-white font-normal text-3xl md:text-5xl">
             {data.title}
