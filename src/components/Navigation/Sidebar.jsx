@@ -51,7 +51,7 @@ export default function Sidebar() {
     }
   ];
   return (
-    <div className="bg-sidebar-bg text-sidebar-text sticky z-10 xl:fixed xl:left-5 xl:top-1/2 xl:-translate-y-1/2 xl:h-[94dvh]  xl:w-22 top-0 p-4 flex justify-between items-center xl:flex-col xl:justify-start xl:rounded-[20px] xl:py-6">
+    <div className="bg-sidebar-bg text-sidebar-text sticky z-50 xl:fixed xl:left-5 xl:top-1/2 xl:-translate-y-1/2 xl:h-[94dvh]  xl:w-22 top-0 p-4 flex justify-between items-center xl:flex-col xl:justify-start xl:rounded-[20px] xl:py-6">
       <NavLink to="/">
         <RiMovie2AiLine className="text-[32px] xl:text-[40px] text-caret" />
       </NavLink>
