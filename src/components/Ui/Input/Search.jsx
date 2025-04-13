@@ -86,7 +86,7 @@ export default function Search({
 
   return (
     <div>
-      <div className="relative bg-transparent p-2 flex items-center gap-2 mb-4 basis-[80%]">
+      <div className="relative bg-transparent py-2 flex items-center gap-2 mb-4 basis-[80%]">
         <FiSearch className="text-white text-[25px] md:text-3xl" />
 
         <input
