@@ -77,13 +77,13 @@ export default function Sidebar() {
         {authUser?.photoURL ? (
           <img
             src={authUser?.photoURL}
-            alt="avatar"
+            alt={`${authUser?.displayName}'s avatar `}
             className="w-7 h-6 rounded-full xl:w-8 xl:h-8 border border-white"
           />
         ) : (
           <img
             src="https://freesvg.org/img/abstract-user-flat-4.png"
-            alt="avatar"
+            alt="User's avatar"
             className="w-7 h-6 rounded-full xl:w-8 xl:h-8 border border-white"
           />
         )}
